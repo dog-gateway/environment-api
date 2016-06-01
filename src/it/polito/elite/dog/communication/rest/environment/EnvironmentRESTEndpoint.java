@@ -31,6 +31,7 @@ import java.io.StringWriter;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Path;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -173,9 +174,11 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #getBuildingInJson()
 	 */
 	@Override
-	public String getBuildingInJson()
+	public String getBuildingInJson(HttpServletResponse httpResponse)
 	{
 		String environmentJSON = "";
+		
+		this.setCORSSupport(httpResponse);
 		
 		// get the JAXB object containing all the building information
 		DogHomeConfiguration dhc = this.getBuildingFromModel();
@@ -214,9 +217,11 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #getBuildingInXml()
 	 */
 	@Override
-	public String getBuildingInXml()
+	public String getBuildingInXml(HttpServletResponse httpResponse)
 	{
 		String environmentXML = "";
+		
+		this.setCORSSupport(httpResponse);
 		
 		// get the JAXB object containing all the configured buildings
 		DogHomeConfiguration dhc = this.getBuildingFromModel();
@@ -247,9 +252,11 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #getFlatsInJson()
 	 */
 	@Override
-	public String getFlatsInJson()
+	public String getFlatsInJson(HttpServletResponse httpResponse)
 	{
 		String flatsJSON = "";
+		
+		this.setCORSSupport(httpResponse);
 		
 		// get the JAXB object containing all the information about flats
 		Building building = this.getFlatsFromModel();
@@ -290,11 +297,13 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #addNewFlat(java.lang.String)
 	 */
 	@Override
-	public void addNewFlat(String addedFlat)
+	public void addNewFlat(String addedFlat, HttpServletResponse httpResponse)
 	{
 		// set and init the variable used to store the HTTP response that will
 		// be sent by exception to the client
 		Status response = null;
+		
+		this.setCORSSupport(httpResponse);
 		
 		try
 		{
@@ -336,9 +345,11 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #getFlat(java.lang.String)
 	 */
 	@Override
-	public String getFlat(String flatId)
+	public String getFlat(String flatId, HttpServletResponse httpResponse)
 	{
 		String flatJSON = "";
+		
+		this.setCORSSupport(httpResponse);
 		
 		// get the JAXB object containing all the information about the desired
 		// flat
@@ -379,11 +390,13 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #updateFlat(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void updateFlat(String flatId, String updatedFlat)
+	public void updateFlat(String flatId, String updatedFlat, HttpServletResponse httpResponse)
 	{
 		// set and init the variable used to store the HTTP response that will
 		// be sent by exception to the client
 		Status response = null;
+		
+		this.setCORSSupport(httpResponse);
 		
 		// check if the flat exists
 		Flat flat = this.getFlatFromModel(flatId);
@@ -445,9 +458,11 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #getRoomsInFlat(java.lang.String)
 	 */
 	@Override
-	public String getRoomsInFlat(String flatId)
+	public String getRoomsInFlat(String flatId, HttpServletResponse httpResponse)
 	{
 		String roomsJSON = "";
+		
+		this.setCORSSupport(httpResponse);
 		
 		// get the JAXB object containing all the information about the desired
 		// flat
@@ -495,11 +510,13 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #addNewRoomInFlat(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void addNewRoomInFlat(String flatId, String addedRoom)
+	public void addNewRoomInFlat(String flatId, String addedRoom, HttpServletResponse httpResponse)
 	{
 		// set and init the variable used to store the HTTP response that will
 		// be sent by exception to the client
 		Status response = null;
+		
+		this.setCORSSupport(httpResponse);
 		
 		try
 		{
@@ -540,9 +557,11 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #getSingleRoomInFlat(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String getSingleRoomInFlat(String flatId, String roomId)
+	public String getSingleRoomInFlat(String flatId, String roomId, HttpServletResponse httpResponse)
 	{
 		String roomsJSON = "";
+		
+		this.setCORSSupport(httpResponse);
 		
 		// get the JAXB object containing all the information about the desired
 		// room
@@ -583,11 +602,13 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #updateRoomInFlat(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void updateRoomInFlat(String flatId, String roomId, String updatedRoom)
+	public void updateRoomInFlat(String flatId, String roomId, String updatedRoom, HttpServletResponse httpResponse)
 	{
 		// set and init the variable used to store the HTTP response that will
 		// be sent by exception to the client
 		Status response = null;
+		
+		this.setCORSSupport(httpResponse);
 		
 		// get the room to check if it exists
 		Room room = this.getRoomFromModel(flatId, roomId);
@@ -648,8 +669,9 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #removeRoomFromFlat(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void removeRoomFromFlat(String roomId, String flatId)
+	public void removeRoomFromFlat(String roomId, String flatId, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		if (this.environmentModel.get() != null)
 		{
 			// remove the given room from the Environmental Model
@@ -674,8 +696,9 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #removeFlat(java.lang.String)
 	 */
 	@Override
-	public void removeFlat(String flatId)
+	public void removeFlat(String flatId, HttpServletResponse httpResponse)
 	{
+		this.setCORSSupport(httpResponse);
 		if (this.environmentModel.get() != null)
 		{
 			// remove the given flat from the Environmental Model
@@ -850,4 +873,8 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 		return environmentXML;
 	}
 	
+	private void setCORSSupport(HttpServletResponse response)
+	{
+		response.addHeader("Access-Control-Allow-Origin", "*");
+	}
 }

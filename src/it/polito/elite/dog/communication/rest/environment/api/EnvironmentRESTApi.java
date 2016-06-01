@@ -17,6 +17,7 @@
  */
 package it.polito.elite.dog.communication.rest.environment.api;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -25,6 +26,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -48,7 +50,7 @@ public interface EnvironmentRESTApi
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getBuildingInJson();
+	public String getBuildingInJson(@Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Get the environment (i.e., the building) configured in Dog.
@@ -57,7 +59,7 @@ public interface EnvironmentRESTApi
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
-	public String getBuildingInXml();
+	public String getBuildingInXml(@Context HttpServletResponse httpResponse);
 	
 	/**
 	 * List all the flats present in the environment (i.e., the building).
@@ -67,7 +69,7 @@ public interface EnvironmentRESTApi
 	@GET
 	@Path("/flats")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getFlatsInJson();
+	public String getFlatsInJson(@Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Add a new flat to the environment configured in Dog.
@@ -78,7 +80,7 @@ public interface EnvironmentRESTApi
 	@POST
 	@Path("/flats")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void addNewFlat(String addedFlat);
+	public void addNewFlat(String addedFlat, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Return the details of the flat identified by the given flat-id.
@@ -90,7 +92,7 @@ public interface EnvironmentRESTApi
 	@GET
 	@Path("/flats/{flat-id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getFlat(@PathParam("flat-id") String flatId);
+	public String getFlat(@PathParam("flat-id") String flatId, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Update the flat identified by the given flat-id.
@@ -103,7 +105,7 @@ public interface EnvironmentRESTApi
 	@PUT
 	@Path("/flats/{flat-id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateFlat(@PathParam("flat-id") String flatId, String updatedFlat);
+	public void updateFlat(@PathParam("flat-id") String flatId, String updatedFlat, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * List all the rooms present in the flat identified by the given flat-id.
@@ -116,7 +118,7 @@ public interface EnvironmentRESTApi
 	@GET
 	@Path("/flats/{flat-id}/rooms")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getRoomsInFlat(@PathParam("flat-id") String flatId);
+	public String getRoomsInFlat(@PathParam("flat-id") String flatId, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Add a new room to the flat identified by the given flat-id.
@@ -129,7 +131,7 @@ public interface EnvironmentRESTApi
 	@POST
 	@Path("/flats/{flat-id}/rooms")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void addNewRoomInFlat(@PathParam("flat-id") String flatId, String addedRoom);
+	public void addNewRoomInFlat(@PathParam("flat-id") String flatId, String addedRoom, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Get the details of the room identified by the given room-id and located
@@ -144,7 +146,7 @@ public interface EnvironmentRESTApi
 	@GET
 	@Path("/flats/{flat-id}/rooms/{room-id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getSingleRoomInFlat(@PathParam("flat-id") String flatId, @PathParam("room-id") String roomId);
+	public String getSingleRoomInFlat(@PathParam("flat-id") String flatId, @PathParam("room-id") String roomId, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Update the room identified by the given room-id and located in the given
@@ -161,7 +163,7 @@ public interface EnvironmentRESTApi
 	@Path("/flats/{flat-id}/rooms/{room-id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void updateRoomInFlat(@PathParam("flat-id") String flatId, @PathParam("room-id") String roomId,
-			String updatedRoom);
+			String updatedRoom, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Remove the room identified by room-id and present in the given flat.
@@ -173,7 +175,7 @@ public interface EnvironmentRESTApi
 	 */
 	@DELETE
 	@Path("/flats/{flat-id}/rooms/{room-id}")
-	public void removeRoomFromFlat(@PathParam("room-id") String roomId, @PathParam("flat-id") String flatId);
+	public void removeRoomFromFlat(@PathParam("room-id") String roomId, @PathParam("flat-id") String flatId, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Remove the flat identified by the given flat-id.
@@ -183,5 +185,5 @@ public interface EnvironmentRESTApi
 	 */
 	@DELETE
 	@Path("/flats/{flat-id}")
-	public void removeFlat(@PathParam("flat-id") String flatId);
+	public void removeFlat(@PathParam("flat-id") String flatId, @Context HttpServletResponse httpResponse);
 }
