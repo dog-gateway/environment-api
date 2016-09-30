@@ -28,6 +28,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * The interface defining the API for the environment, it permits to:
@@ -76,11 +77,12 @@ public interface EnvironmentRESTApi
 	 * 
 	 * @param addedFlat
 	 *            the JSON representation of the flat to add
+	 * @return 
 	 */
 	@POST
 	@Path("/flats")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void addNewFlat(String addedFlat, @Context HttpServletResponse httpResponse);
+	public Response addNewFlat(String addedFlat, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Return the details of the flat identified by the given flat-id.
@@ -101,11 +103,12 @@ public interface EnvironmentRESTApi
 	 *            the unique identifier of an existing flat
 	 * @param updatedFlat
 	 *            the updated flat in JSON format
+	 * @return 
 	 */
 	@PUT
 	@Path("/flats/{flat-id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateFlat(@PathParam("flat-id") String flatId, String updatedFlat, @Context HttpServletResponse httpResponse);
+	public Response updateFlat(@PathParam("flat-id") String flatId, String updatedFlat, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * List all the rooms present in the flat identified by the given flat-id.
@@ -127,11 +130,12 @@ public interface EnvironmentRESTApi
 	 *            the unique identifier of an existing flat
 	 * @param addedRoom
 	 *            the JSON representation of a room to add to the given flat
+	 * @return 
 	 */
 	@POST
 	@Path("/flats/{flat-id}/rooms")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void addNewRoomInFlat(@PathParam("flat-id") String flatId, String addedRoom, @Context HttpServletResponse httpResponse);
+	public Response addNewRoomInFlat(@PathParam("flat-id") String flatId, String addedRoom, @Context HttpServletResponse httpResponse);
 	
 	/**
 	 * Get the details of the room identified by the given room-id and located
@@ -158,11 +162,12 @@ public interface EnvironmentRESTApi
 	 *            the unique identifier of an existing room
 	 * @param updatedRoom
 	 *            the updated room in JSON format
+	 * @return 
 	 */
 	@PUT
 	@Path("/flats/{flat-id}/rooms/{room-id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateRoomInFlat(@PathParam("flat-id") String flatId, @PathParam("room-id") String roomId,
+	public Response updateRoomInFlat(@PathParam("flat-id") String flatId, @PathParam("room-id") String roomId,
 			String updatedRoom, @Context HttpServletResponse httpResponse);
 	
 	/**

@@ -17,28 +17,18 @@
  */
 package it.polito.elite.dog.communication.rest.environment;
 
-import it.polito.elite.dog.communication.rest.environment.api.EnvironmentRESTApi;
-import it.polito.elite.dog.core.housemodel.api.EnvironmentModel;
-import it.polito.elite.dog.core.library.jaxb.Building;
-import it.polito.elite.dog.core.library.jaxb.BuildingEnvironment;
-import it.polito.elite.dog.core.library.jaxb.DogHomeConfiguration;
-import it.polito.elite.dog.core.library.jaxb.Flat;
-import it.polito.elite.dog.core.library.jaxb.ObjectFactory;
-import it.polito.elite.dog.core.library.jaxb.Room;
-import it.polito.elite.dog.core.library.util.LogHelper;
-
 import java.io.StringWriter;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Path;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import org.codehaus.jackson.map.AnnotationIntrospector;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -48,6 +38,16 @@ import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
 import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.log.LogService;
+
+import it.polito.elite.dog.communication.rest.environment.api.EnvironmentRESTApi;
+import it.polito.elite.dog.core.housemodel.api.EnvironmentModel;
+import it.polito.elite.dog.core.library.jaxb.Building;
+import it.polito.elite.dog.core.library.jaxb.BuildingEnvironment;
+import it.polito.elite.dog.core.library.jaxb.DogHomeConfiguration;
+import it.polito.elite.dog.core.library.jaxb.Flat;
+import it.polito.elite.dog.core.library.jaxb.ObjectFactory;
+import it.polito.elite.dog.core.library.jaxb.Room;
+import it.polito.elite.dog.core.library.util.LogHelper;
 
 /**
  * 
@@ -297,13 +297,11 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #addNewFlat(java.lang.String)
 	 */
 	@Override
-	public void addNewFlat(String addedFlat, HttpServletResponse httpResponse)
+	public Response addNewFlat(String addedFlat, HttpServletResponse httpResponse)
 	{
 		// set and init the variable used to store the HTTP response that will
 		// be sent by exception to the client
-		Status response = null;
-		
-		this.setCORSSupport(httpResponse);
+		Status response = Response.Status.EXPECTATION_FAILED;
 		
 		try
 		{
@@ -333,8 +331,13 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 			response = Response.Status.NOT_MODIFIED;
 		}
 		
-		// launch the exception responsible for sending the HTTP response
-		throw new WebApplicationException(response);
+		if(response != Response.Status.CREATED)
+		{
+			// launch the exception responsible for sending the HTTP response
+			throw new WebApplicationException(response);
+		}
+		
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 	
 	/*
@@ -390,13 +393,11 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #updateFlat(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void updateFlat(String flatId, String updatedFlat, HttpServletResponse httpResponse)
+	public Response updateFlat(String flatId, String updatedFlat, HttpServletResponse httpResponse)
 	{
 		// set and init the variable used to store the HTTP response that will
 		// be sent by exception to the client
-		Status response = null;
-		
-		this.setCORSSupport(httpResponse);
+		Status response = Response.Status.EXPECTATION_FAILED;
 		
 		// check if the flat exists
 		Flat flat = this.getFlatFromModel(flatId);
@@ -446,8 +447,13 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 			response = Response.Status.NOT_MODIFIED;
 		}
 		
-		// launch the exception responsible for sending the HTTP response
-		throw new WebApplicationException(response);
+		if(response != Response.Status.OK)
+		{
+			// launch the exception responsible for sending the HTTP response
+			throw new WebApplicationException(response);
+		}
+		
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 	
 	/*
@@ -510,13 +516,11 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #addNewRoomInFlat(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void addNewRoomInFlat(String flatId, String addedRoom, HttpServletResponse httpResponse)
+	public Response addNewRoomInFlat(String flatId, String addedRoom, HttpServletResponse httpResponse)
 	{
 		// set and init the variable used to store the HTTP response that will
 		// be sent by exception to the client
-		Status response = null;
-		
-		this.setCORSSupport(httpResponse);
+		Status response = Response.Status.EXPECTATION_FAILED;
 		
 		try
 		{
@@ -545,8 +549,13 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 			response = Response.Status.NOT_MODIFIED;
 		}
 		
-		// launch the exception responsible for sending the HTTP response
-		throw new WebApplicationException(response);
+		if(response != Response.Status.CREATED)
+		{
+			// launch the exception responsible for sending the HTTP response
+			throw new WebApplicationException(response);
+		}
+		
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 	
 	/*
@@ -602,13 +611,11 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 	 * #updateRoomInFlat(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void updateRoomInFlat(String flatId, String roomId, String updatedRoom, HttpServletResponse httpResponse)
+	public Response updateRoomInFlat(String flatId, String roomId, String updatedRoom, HttpServletResponse httpResponse)
 	{
 		// set and init the variable used to store the HTTP response that will
 		// be sent by exception to the client
-		Status response = null;
-		
-		this.setCORSSupport(httpResponse);
+		Status response = Response.Status.EXPECTATION_FAILED;
 		
 		// get the room to check if it exists
 		Room room = this.getRoomFromModel(flatId, roomId);
@@ -657,8 +664,13 @@ public class EnvironmentRESTEndpoint implements EnvironmentRESTApi
 			response = Response.Status.NOT_MODIFIED;
 		}
 		
-		// launch the exception responsible for sending the HTTP response
-		throw new WebApplicationException(response);
+		if(response != Response.Status.OK)
+		{
+			// launch the exception responsible for sending the HTTP response
+			throw new WebApplicationException(response);
+		}
+		
+		return Response.ok().header("Access-Control-Allow-Origin", "*").build();
 	}
 	
 	/*
