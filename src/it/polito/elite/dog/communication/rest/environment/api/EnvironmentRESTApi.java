@@ -45,6 +45,15 @@ import javax.ws.rs.core.Response;
 public interface EnvironmentRESTApi
 {
 	/**
+	 * Get the environment svg plan, if available
+	 * 
+	 * return an svg string
+	 */
+	@GET
+	@Path("/plan")
+	@Produces("image/svg+xml")
+	public Response getSVGPlan();
+	/**
 	 * Get the environment (i.e., the building) configured in Dog.
 	 * 
 	 * @return a JSON representation of the building
